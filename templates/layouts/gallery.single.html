@@ -1,0 +1,62 @@
+
+{{define "title"}}whoknowkmh - {{.data.title}}{{end}}
+
+{{define "content"}}
+<div class="container-fluid">
+  <div class="row justify-content-center" id="photo-card">
+    <div class="mb-5 mt-3 col-xl-6 col-lg-12">
+      <p class="text-center"><img id="photo-single" class="card-img-top probootstrap-animate Sirv" data-src="{{.data.photo.Url}}?w=700px" data-options="lazy:false" alt="Card image cap"></p>
+      {{if .data.preID}}
+      <p id="previous"><a href="/gallery/{{.data.preID}}"><span><</span></a></p>
+      {{end}}
+      {{if .data.nextID}}
+      <p id="next"><a href="/gallery/{{.data.nextID}}"><span>></span></a></p>
+      {{end}}
+    </div>
+    <div class="col-xl-6 col-lg-12" id="photo-info">
+      <h3 class="mb-5 photo-title">{{.data.photo.Name}}</h3>
+      <p id="photo-download" class="reference">Download <span class="icon-arrow-down"></span></p>
+      {{.data.description}}
+    </div>
+</div>
+
+{{end}}
+
+{{define "scripts"}}
+<script>
+  $('.probootstrap-nav>ul>li').removeClass('active');
+  $('.probootstrap-nav>ul>li#gallery-nav').addClass('active');
+
+  const img = document.getElementById('photo-single')
+  img.addEventListener('contextmenu', event => event.preventDefault());
+
+  const btn = document.getElementById('photo-download');
+  btn.addEventListener('click', () => {
+    var url = img.getAttribute('data-src');
+    var name = document.getElementsByClassName('photo-title')[0].textContent;
+
+    downloadImage(
+      url,
+      `whoknowkmh_${name}.png`,
+    )
+      .then(() => {
+        console.log('The image has been downloaded');
+      })
+      .catch(err => {
+        console.log('Error downloading image: ', err);
+      });
+  });
+</script>
+{{end}}
+
+{{define "media_head"}}
+<style>
+  img.Sirv.sirv-image-loading {
+    opacity: 0;
+  }
+  img.Sirv.sirv-image-loaded {
+    transition: opacity .4s linear;
+    opacity: 1;
+  }
+</style>
+{{end}}

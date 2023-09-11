@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{block "title" .}}{{end}}</title>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Free HTML5 Website Template by uicookies.com" />
+    <meta name="keywords" content="free bootstrap 4, free bootstrap 4 template, free website templates, free html5, free template, free website template, html5, css3, mobile first, responsive" />
+    <meta name="author" content="uicookies.com" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <link rel="preconnect" href="https://scripts.sirv.com" crossorigin>
+    <link rel="preconnect" href="https://tenseyal.sirv.com" crossorigin>
+    <link rel="dns-prefetch" href="https://scripts.sirv.com">
+    <link rel="dns-prefetch" href="https://tenseyal.sirv.com">
+    
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/icomoon@1.0.0/style.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/open-iconic-bootstrap.min.css">
+    
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="/assets/css/icomoon.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    {{block "media_head" .}}{{end}}
+
+  </head>
+  <body>
+    
+    <aside class="probootstrap-aside js-probootstrap-aside">
+      <a href="#" class="probootstrap-close-menu js-probootstrap-close-menu d-md-none"><span class="oi oi-arrow-left"></span> Close</a>
+      <div class="probootstrap-site-logo probootstrap-animate" data-animate-effect="fadeInLeft">
+        <a href="/" class="mb-2 d-block probootstrap-logo">#whoknow<b>kmh</b></a>
+
+      </div>
+      <div class="probootstrap-overflow">
+        <nav class="probootstrap-nav">
+          <ul>
+            <li class="probootstrap-animate active" id="home-nav" data-animate-effect="fadeInLeft"><a href="/">HOME</a></li>
+            <li class="probootstrap-animate" id="about-nav" data-animate-effect="fadeInLeft"><a href="/about">ABOUT</a></li>
+            <li class="probootstrap-animate" id="gallery-nav" data-animate-effect="fadeInLeft"><a href="/gallery">GALLERY</a></li>
+            <li class="probootstrap-animate" id="blog-nav" data-animate-effect="fadeInLeft"><a href="/blog">BLOG</a></li>
+            <li class="probootstrap-animate" id="contactnav" data-animate-effect="fadeInLeft"><a data-testid="linkElement" href="mailto:kietmathi77@gmail.com" target="_self" class="" tabindex="-1">CONTACT</a></li>
+          </ul>
+        </nav>
+        <footer class="probootstrap-aside-footer probootstrap-animate" data-animate-effect="fadeInLeft">
+          <ul class="list-unstyled d-flex probootstrap-aside-social">
+            <li><a href="#" class="p-2"><span class="icon-linkedin"></span></a></li>
+            <li><a href="https://www.instagram.com/kietmathi/" class="p-2"><span class="icon-instagram"></span></a></li>
+          </ul>
+          <p>&copy; 2017 <a href="https://uicookies.com/" target="_blank">uiCookies:Aside</a>. <br> All Rights Reserved.</p>
+        </footer>
+      </div>
+    </aside>
+
+
+    <main role="main" class="probootstrap-main js-probootstrap-main">
+      <div class="probootstrap-bar">
+        <a href="#" class="probootstrap-toggle js-probootstrap-toggle"><span class="oi oi-menu"></span></a>
+        <div class="probootstrap-main-site-logo"><a href="/">#whoknowkmh</a></a></div>
+      </div>
+      
+      {{template "content" .}}
+
+      <div class="container-fluid d-md-none mt-5 border-top">
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="list-unstyled d-flex probootstrap-aside-social">
+              <li><a href="#" class="p-2"><span class="icon-linkedin"></span></a></li>
+              <li><a href="https://www.instagram.com/kietmathi/" class="p-2"><span class="icon-instagram"></span></a></li>
+            </ul>
+            <p>&copy; 2017 <a href="https://uicookies.com/" target="_blank">uiCookies:Aside</a>. <br> All Rights Reserved. Designed by <a href="https://uicookies.com/" target="_blank">uicookies.com</a></p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+
+    <script src="/assets/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/jquery.waypoints.min.js"></script>
+    <script src="/assets/js/imagesloaded.pkgd.min.js"></script>
+
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/custom.js"></script>
+
+    <script src="https://scripts.sirv.com/sirv.nospin.js"></script>
+
+    {{block "scripts" .}}{{end}}
+    
+  </body>
+</html>

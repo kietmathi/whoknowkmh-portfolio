@@ -1,0 +1,63 @@
+.probootstrap-main .card-columns .card a:before {
+    display: flex;
+    font-size: 2em;
+    align-items: center;
+    justify-content: center;
+    content: "TAKE A LOOK";
+    color: #000;
+}
+
+#photo-info {
+    line-break: auto;
+  }
+#photo-info .photo-title {
+border-bottom: 2px solid #1FAD9F;
+}
+#photo-info p.reference {
+border-bottom: 1px solid #1FAD9F;
+display: inline-block;
+color: #000;
+}
+#photo-info p#photo-download {
+cursor: pointer;
+}
+#photo-info p#photo-download:hover  {
+color: #1FAD9F;
+-webkit-transition: .3s all ease;
+-o-transition: .3s all ease;
+transition: .3s all ease;
+}
+
+#photo-card {
+    position: relative;
+}
+#photo-card p#previous {
+    position: absolute;
+    left: 0;
+    top: 40%;
+    font-size: 2em;
+}
+#photo-card p#next {
+    position: absolute;
+    right: 0;
+    top: 40%;
+    font-size: 2em;
+}
+
+#photo-card p#next a,
+#photo-card p#previous a {
+    display: inline-block;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    opacity: 0.5;
+    padding: 0px 25px;
+    color: currentColor;
+}
+#photo-card p#next a:hover,
+#photo-card p#previous a:hover {
+    background-color: #1FAD9F;
+    color: white;
+    -webkit-transition: .2s all ease;
+    -o-transition: .2s all ease;
+    transition: .2s all ease;
+}

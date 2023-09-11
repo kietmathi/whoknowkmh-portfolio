@@ -1,0 +1,22 @@
+
+{{define "title"}}whoknowkmh - {{.title}}{{end}}
+
+{{define "content"}}
+<div class="card-columns">
+{{range .photos }}
+  <div class="card">
+    <a href="/gallery/{{.ID}}">
+    <img class="card-img-top probootstrap-animate Sirv" data-src="{{.Url}}" data-options="lazy:false" alt="Card image cap">
+    </a>
+  </div>
+
+{{end}}
+</div>
+{{end}}
+
+{{define "scripts"}}
+<script>
+  $('.probootstrap-nav>ul>li').removeClass('active');
+  $('.probootstrap-nav>ul>li#gallery-nav').addClass('active');
+</script>
+{{end}}
