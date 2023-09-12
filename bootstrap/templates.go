@@ -15,14 +15,14 @@ func NewEmbedTemplates(fs embed.FS) multitemplate.Renderer {
 
 	layouts, err := embed.FS.ReadDir(fs, "templates/layouts")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 
 	for _, layout := range layouts {
 		embeddedTemplate, err :=
 			template.ParseFS(fs, "templates/includes/base.html", "templates/layouts/"+layout.Name())
 		if err != nil {
-			log.Println(err)
+			log.Fatal(err)
 		}
 		renderer.Add(layout.Name(), embeddedTemplate)
 		log.Println(layout.Name() + " loaded")

@@ -4,43 +4,29 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kietmathi/whoknowkmh-portfolio/domain"
+	"github.com/kietmathi/whoknowkmh-portfolio/internal/renderutil"
 )
 
-type homeController struct {
-	photoService domain.PhotoService
-}
+type homeController struct{}
 
 type HomeController interface {
 	Show(c *gin.Context)
 }
 
-func NewHomeController(ps domain.PhotoService) HomeController {
-	return &homeController{
-		photoService: ps,
-	}
+func NewHomeController() HomeController {
+	return &homeController{}
 }
 
 func (pc *homeController) Show(c *gin.Context) {
-	photos, err := pc.photoService.FindAll()
-	if err != nil {
-		c.HTML(
-			http.StatusBadRequest,
-			"home.html",
-			gin.H{"error": "Error while getting photos"})
-		return
-	}
-
+	data := make(map[string]interface{}, 1)
 	// Call the HTML method of the Context to render a template
-	c.HTML(
+	data["title"] = "about"
+	renderutil.RenderTemplte(
+		c,
 		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
-		// Use the index.html template
+		// Use the home.html template
 		"home.html",
 		// Pass the data that the page uses
-		gin.H{
-			"title":  "home",
-			"photos": photos,
-		},
-	)
+		data)
 }

@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"embed"
 	"io/fs"
+	"log"
 
 	"github.com/gin-contrib/multitemplate"
 	"gorm.io/gorm"
@@ -10,21 +11,23 @@ import (
 
 type Application struct {
 	Env            *Env
-	SQLite         *gorm.DB
+	SQLiteDB       *gorm.DB
 	EmbedTemplates multitemplate.Renderer
 	EmbedAssets    fs.FS
+	Logger         *log.Logger
 }
 
 func App(embedFS embed.FS) Application {
 	app := &Application{}
 	app.Env = NewEnv(embedFS)
-	app.SQLite = NewSQLiteDatabase(app.Env.DatabasePath)
+	app.SQLiteDB = NewSQLiteDatabase(app.Env.DatabasePath)
 	app.EmbedTemplates = NewEmbedTemplates(embedFS)
 	app.EmbedAssets = NewEmbedAssets(embedFS)
+	app.Logger = log.Default()
 
 	return *app
 }
 
 func (app *Application) CloseDBConnection() {
-	ClosSQLiteDatabaseConnection(app.SQLite)
+	CloseSQLiteDatabaseConnection(app.SQLiteDB)
 }

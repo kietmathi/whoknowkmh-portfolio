@@ -35,7 +35,3 @@ func (p *photoRepository) GetAllID() ([]string, error) {
 	err := p.DB.Model(&domain.Photo{}).Order("id DESC").Pluck("id", &ids).Error
 	return ids, err
 }
-
-func (p *photoRepository) Migrate() error {
-	return p.DB.AutoMigrate(&domain.Photo{})
-}

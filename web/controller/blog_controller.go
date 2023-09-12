@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kietmathi/whoknowkmh-portfolio/internal/renderutil"
 )
 
 type blogController struct{}
@@ -17,13 +18,11 @@ func NewBlogController() BlogController {
 }
 
 func (bc *blogController) Show(c *gin.Context) {
-	data := make(map[string]interface{})
+	data := make(map[string]interface{}, 1)
 	data["title"] = "about"
-	c.HTML(
+	renderutil.RenderTemplte(
+		c,
 		http.StatusOK,
 		"blog.html",
-		gin.H{
-			"data": data,
-		},
-	)
+		data)
 }

@@ -7,11 +7,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/kietmathi/whoknowkmh-portfolio/domain"
-	"github.com/kietmathi/whoknowkmh-portfolio/internal"
+	"github.com/kietmathi/whoknowkmh-portfolio/internal/renderutil"
 )
 
+const templateTitle string = "gallery"
+
 type galleryController struct {
-	photoService domain.PhotoService
+	galleryService domain.GalleryService
+	logger         domain.Logger
 }
 
 type GalleryController interface {
@@ -19,73 +22,83 @@ type GalleryController interface {
 	ShowByID(c *gin.Context)
 }
 
-func NewPhotosController(ps domain.PhotoService) GalleryController {
+func NewGalleryController(gs domain.GalleryService, l domain.Logger) GalleryController {
 	return &galleryController{
-		photoService: ps,
+		galleryService: gs,
+		logger:         l,
 	}
 }
 
-func (pc *galleryController) ShowAll(c *gin.Context) {
-	var photos []domain.Photo
-	photos, err := pc.photoService.FindAll()
+func (gc *galleryController) ShowAll(c *gin.Context) {
+	templateName := "gallery.all.html"
+	data := make(map[string]interface{}, 2)
+
+	photos, err := gc.galleryService.FindAllPhoto()
 	if err != nil {
-		c.HTML(
+		gc.logger.Printf("%+v\n", err)
+		renderutil.RenderTemplte(
+			c,
 			http.StatusBadRequest,
-			"gallery.all.html",
-			gin.H{"error": "Error while getting photos"})
+			templateName,
+			data)
 		return
 	}
-	c.HTML(
+
+	data["title"] = templateTitle
+	data["photos"] = photos
+	renderutil.RenderTemplte(
+		c,
 		http.StatusOK,
-		"gallery.all.html",
-		gin.H{
-			"title":  "gallery",
-			"photos": photos,
-		},
-	)
+		templateName,
+		data)
 }
 
-func (pc *galleryController) ShowByID(c *gin.Context) {
+func (gc *galleryController) ShowByID(c *gin.Context) {
+	templateName := "gallery.single.html"
+	data := make(map[string]interface{}, 5)
+
 	imgIDParam := c.Param("imgid")
 	imgID, err := strconv.Atoi(imgIDParam)
 	if err != nil {
-		c.HTML(
+		gc.logger.Printf("%+v\n", err)
+		renderutil.RenderTemplte(
+			c,
 			http.StatusBadRequest,
-			"gallery.single.html",
-			gin.H{"error": "Invalid photo id:" + imgIDParam})
+			templateName,
+			data)
 		return
 	}
 
-	photo, err := pc.photoService.FindByID(uint(imgID))
+	photo, err := gc.galleryService.FindPhotoByID(uint(imgID))
 	if err != nil {
-		c.HTML(
+		gc.logger.Printf("%+v\n", err)
+		renderutil.RenderTemplte(
+			c,
 			http.StatusBadRequest,
-			"gallery.single.html",
-			gin.H{"error": "Error while getting photo id:" + imgIDParam})
+			templateName,
+			data)
 		return
 	}
 
-	photoIds, err := pc.photoService.GetAllID()
+	preID, nextID, err := gc.galleryService.FindNextAndPrevPhotoID(imgIDParam)
 	if err != nil {
-		c.HTML(
+		gc.logger.Printf("%+v\n", err)
+		renderutil.RenderTemplte(
+			c,
 			http.StatusBadRequest,
-			"gallery.single.html",
-			gin.H{"error": "Error while getting photo id:" + imgIDParam})
+			templateName,
+			data)
 		return
 	}
 
-	preID, nextID := internal.FindNextAndPrevPhotoID(photoIds, imgIDParam)
-	data := make(map[string]interface{})
-	data["title"] = "gallery"
+	data["title"] = templateTitle
 	data["photo"] = photo
 	data["description"] = template.HTML(photo.Description)
 	data["preID"] = preID
 	data["nextID"] = nextID
-	c.HTML(
+	renderutil.RenderTemplte(
+		c,
 		http.StatusOK,
-		"gallery.single.html",
-		gin.H{
-			"data": data,
-		},
-	)
+		templateName,
+		data)
 }

@@ -17,7 +17,7 @@ func main() {
 
 	env := app.Env
 
-	db := app.SQLite
+	db := app.SQLiteDB
 	defer app.CloseDBConnection()
 
 	gin := gin.Default()
@@ -27,7 +27,7 @@ func main() {
 	assets := app.EmbedAssets
 	gin.StaticFS("/assets", http.FS(assets))
 
-	route.Setup(db, gin)
+	route.Setup(db, app.Logger, gin)
 
 	gin.Run(env.ServerAddress)
 }

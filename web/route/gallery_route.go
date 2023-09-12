@@ -1,6 +1,8 @@
 package route
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/kietmathi/whoknowkmh-portfolio/repository"
 	"github.com/kietmathi/whoknowkmh-portfolio/service"
@@ -8,11 +10,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewGalleryRouter(db *gorm.DB, gin *gin.RouterGroup) {
+func NewGalleryRouter(db *gorm.DB, logger *log.Logger, gin *gin.RouterGroup) {
 	pr := repository.NewPhotoRepository(db)
-	ps := service.NewPhotoService(pr)
-	pc := controller.NewPhotosController(ps)
+	gs := service.NewGalleryService(pr)
+	gc := controller.NewGalleryController(gs, logger)
 
-	gin.GET("/gallery", pc.ShowAll)
-	gin.GET("/gallery/:imgid", pc.ShowByID)
+	gin.GET("/gallery", gc.ShowAll)
+	gin.GET("/gallery/:imgid", gc.ShowByID)
 }

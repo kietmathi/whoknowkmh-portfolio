@@ -12,17 +12,9 @@ type Photo struct {
 	UpdatedAt   time.Time
 }
 
-// PhotoService : represent the photo's services
-type PhotoService interface {
-	FindByID(uint) (Photo, error)
-	FindAll() ([]Photo, error)
-	GetAllID() ([]string, error)
-}
-
 // PhotoRepository : represent the Photo's repository contract
 type PhotoRepository interface {
 	FindByID(uint) (Photo, error)
 	FindAll() ([]Photo, error)
 	GetAllID() ([]string, error)
-	Migrate() error
 }

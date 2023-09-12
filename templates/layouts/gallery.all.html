@@ -1,9 +1,9 @@
 
-{{define "title"}}whoknowkmh - {{.title}}{{end}}
+{{define "title"}}whoknowkmh - {{.data.title}}{{end}}
 
 {{define "content"}}
 <div class="card-columns">
-{{range .photos }}
+{{range .data.photos }}
   <div class="card">
     <a href="/gallery/{{.ID}}">
     <img class="card-img-top probootstrap-animate Sirv" data-src="{{.Url}}" data-options="lazy:false" alt="Card image cap">

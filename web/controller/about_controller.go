@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kietmathi/whoknowkmh-portfolio/internal/renderutil"
 )
 
 type aboutController struct{}
@@ -17,13 +18,10 @@ func NewAboutController() AboutController {
 }
 
 func (ac *aboutController) Show(c *gin.Context) {
-	data := make(map[string]interface{})
-	data["title"] = "about"
-	c.HTML(
+	data := make(map[string]interface{}, 1)
+	renderutil.RenderTemplte(
+		c,
 		http.StatusOK,
 		"about.html",
-		gin.H{
-			"data": data,
-		},
-	)
+		data)
 }

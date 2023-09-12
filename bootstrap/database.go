@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"log"
 
-	"github.com/kietmathi/whoknowkmh-portfolio/repository"
+	"github.com/kietmathi/whoknowkmh-portfolio/domain"
 	"gorm.io/driver/sqlite" // Sqlite driver based on CGO
 	"gorm.io/gorm"
 )
@@ -15,8 +15,7 @@ func NewSQLiteDatabase(DNS string) *gorm.DB {
 		log.Fatal(err)
 	}
 
-	pr := repository.NewPhotoRepository(db)
-	err = pr.Migrate()
+	err = db.AutoMigrate(&domain.Photo{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,7 +23,7 @@ func NewSQLiteDatabase(DNS string) *gorm.DB {
 	return db
 }
 
-func ClosSQLiteDatabaseConnection(db *gorm.DB) {
+func CloseSQLiteDatabaseConnection(db *gorm.DB) {
 	dbSQL, err := db.DB()
 	if err != nil {
 		log.Fatal(err)
