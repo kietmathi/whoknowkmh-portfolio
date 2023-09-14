@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -15,13 +14,14 @@ type AboutController interface {
 	Show(c *gin.Context)
 }
 
+// NewAboutController: create a new instance for AboutController
 func NewAboutController() AboutController {
 	return &aboutController{}
 }
 
+// Show: When the user clicks on the 'About' link, we should show the about page with relevant information
 func (ac *aboutController) Show(c *gin.Context) {
 	isshow := c.DefaultQuery("isshow", "false")
-	fmt.Println("isshow", isshow)
 	data := make(map[string]interface{}, 1)
 	data["title"] = "about"
 	data["isshow"] = isshow

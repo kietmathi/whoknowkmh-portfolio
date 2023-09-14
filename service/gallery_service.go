@@ -8,12 +8,15 @@ import (
 
 var once sync.Once
 
+// galleryService : This struct implements the methods defined in the domain.GalleryService
 type galleryService struct {
 	photoRepository domain.PhotoRepository
 }
 
 var instance *galleryService
 
+// NewGalleryService : Create a new instance of domain.GalleryService.
+// This instance receives a domain.PhotoRepository injection.
 func NewGalleryService(r domain.PhotoRepository) domain.GalleryService {
 	once.Do(func() {
 		instance = &galleryService{
@@ -23,14 +26,17 @@ func NewGalleryService(r domain.PhotoRepository) domain.GalleryService {
 	return instance
 }
 
+// FindPhotoByID: Find the photo with specificed ID
 func (s *galleryService) FindPhotoByID(id uint) (domain.Photo, error) {
 	return s.photoRepository.FindByID(id)
 }
 
+// FindAllPhoto: Find all available photos and sort them in descending order
 func (s *galleryService) FindAllPhoto() ([]domain.Photo, error) {
 	return s.photoRepository.FindAll()
 }
 
+// FindNextAndPrevPhotoID : Find the next and previous photo IDs related to a specific ID
 func (s *galleryService) FindNextAndPrevPhotoID(targetID string) (string, string, error) {
 	var prevPhotoID, nextPhotoID string = "", ""
 

@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CacheStaticFiles : Caching static files
 func CacheStaticFiles(maxAge time.Duration) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Apply the Cache-Control header to the static files

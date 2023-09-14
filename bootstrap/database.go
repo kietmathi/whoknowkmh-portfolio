@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// NewSQLiteDatabase : Create a new SQLite instance
 func NewSQLiteDatabase(DNS string) *gorm.DB {
 	var db *gorm.DB
 	db, err := gorm.Open(sqlite.Open(DNS), &gorm.Config{})
@@ -23,6 +24,7 @@ func NewSQLiteDatabase(DNS string) *gorm.DB {
 	return db
 }
 
+// CloseSQLiteDatabaseConnection: Close SQLite database connection
 func CloseSQLiteDatabaseConnection(db *gorm.DB) {
 	dbSQL, err := db.DB()
 	if err != nil {

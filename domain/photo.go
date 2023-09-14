@@ -2,7 +2,7 @@ package domain
 
 import "time"
 
-// Photo : Database model for photo
+// Photo : Database model for photo table
 type Photo struct {
 	ID          uint   `gorm:"primaryKey;autoIncrement"`
 	Name        string `gorm:"size:255;not null"`

@@ -8,6 +8,8 @@ import (
 	"github.com/gin-contrib/multitemplate"
 )
 
+// NewEmbedTemplates : Make a multitemplate.Renderer instance from
+// the template stored in our embedded file system to render dynamic content
 func NewEmbedTemplates(fs embed.FS) multitemplate.Renderer {
 	renderer := multitemplate.New()
 

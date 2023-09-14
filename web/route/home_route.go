@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// NewHomeRouter: Set up routing so that each request is directed to the 'home' controller for processing
 func NewHomeRouter(db *gorm.DB, group *gin.RouterGroup) {
 	pc := controller.NewHomeController()
 
