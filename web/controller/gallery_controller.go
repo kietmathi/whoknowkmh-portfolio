@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/kietmathi/whoknowkmh-portfolio/domain"
@@ -40,6 +41,7 @@ func (gc *galleryController) ShowAll(c *gin.Context) {
 			c,
 			http.StatusBadRequest,
 			templateName,
+			0*time.Second,
 			data)
 		return
 	}
@@ -50,6 +52,7 @@ func (gc *galleryController) ShowAll(c *gin.Context) {
 		c,
 		http.StatusOK,
 		templateName,
+		1*time.Hour,
 		data)
 }
 
@@ -65,6 +68,7 @@ func (gc *galleryController) ShowByID(c *gin.Context) {
 			c,
 			http.StatusBadRequest,
 			templateName,
+			0*time.Second,
 			data)
 		return
 	}
@@ -76,6 +80,7 @@ func (gc *galleryController) ShowByID(c *gin.Context) {
 			c,
 			http.StatusBadRequest,
 			templateName,
+			0*time.Second,
 			data)
 		return
 	}
@@ -87,6 +92,7 @@ func (gc *galleryController) ShowByID(c *gin.Context) {
 			c,
 			http.StatusBadRequest,
 			templateName,
+			0*time.Second,
 			data)
 		return
 	}
@@ -100,5 +106,6 @@ func (gc *galleryController) ShowByID(c *gin.Context) {
 		c,
 		http.StatusOK,
 		templateName,
+		1*time.Hour,
 		data)
 }

@@ -4,16 +4,23 @@
 {{define "content"}}
 <div class="container-fluid">
   <div class="row justify-content-center" id="photo-card">
-    <div class="mb-5 mt-3 col-xl-6 col-lg-12">
-      <p class="text-center"><img class="card-img-top probootstrap-animate Sirv" data-src="https://tenseyal.sirv.com/gallery-ig-app/avt-home.png?w=400px" data-options="lazy:false" alt="Card image cap"></p>
+    <div class="mb-5 mt-5 col-xl-6 col-lg-12" style="min-height:600px">
+      <p class="text-center"><img class="card-img-top probootstrap-animate Sirv" data-src="https://tenseyal.sirv.com/gallery-ig-app/avt-home.png?w=400px&h=600px&scale.option=noup" data-options="lazy:false" alt=" central image of myself in a cool and edgy style" title="this is the central image of myself in a cool and edgy style"></p>
     </div>
     <div class="col-xl-6 col-lg-12" id="photo-info">
-      <h3 class="mb-5 photo-title">Howdy! I'm Kiet (kietmathi)</h3>
-      <P>By day I’m a software engineer – see more <a href="/about">about</a> me.</p>
+      <h1 class="mb-5 photo-title">Howdy! I'm Kiet (KMH)</h1>
+      <P>By day I’m a software engineer – see more <a href="/about/">about</a> me.</p>
       <br>
       <P>When I have free time, I enjoy doodling.</p>
       <P>This is also the reason why I created this website.</p>
-      <p>See my <a href="/gallery">gallery</a>, and I hope you guys enjoy it.</p>
+      <p>See my <a href="/gallery/">gallery</a>, and I hope you guys enjoy it.</p>
     </div>
 </div>
+{{end}}
+
+{{define "scripts"}}
+<script>
+  $('.probootstrap-nav>ul>li').removeClass('active');
+  $('.probootstrap-nav>ul>li#home-nav').addClass('active');
+</script>
 {{end}}

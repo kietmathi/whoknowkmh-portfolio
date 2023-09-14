@@ -5,8 +5,8 @@
 <div class="card-columns">
 {{range .data.photos }}
   <div class="card">
-    <a href="/gallery/{{.ID}}">
-    <img class="card-img-top probootstrap-animate Sirv" data-src="{{.Url}}" data-options="lazy:false" alt="Card image cap">
+    <a href="/gallery/{{.ID}}/" title="See more photo details">
+    <img class="card-img-top probootstrap-animate Sirv" data-src="{{.Url}}?q=45" data-options="autostart:visible" alt="{{.Name}}" title="{{.Name}}">
     </a>
   </div>
 

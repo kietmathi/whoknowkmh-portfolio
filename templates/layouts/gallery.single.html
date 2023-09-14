@@ -4,17 +4,17 @@
 {{define "content"}}
 <div class="container-fluid">
   <div class="row justify-content-center" id="photo-card">
-    <div class="mb-5 mt-3 col-xl-6 col-lg-12">
-      <p class="text-center"><img id="photo-single" class="card-img-top probootstrap-animate Sirv" data-src="{{.data.photo.Url}}?w=700px" data-options="lazy:false" alt="Card image cap"></p>
+    <div class="mb-5 mt-3 col-xl-6 col-lg-12" style="min-height:500px;display: flex; justify-content: center; align-items: center;">
+      <p class="text-center"><img id="photo-single" class="card-img-top probootstrap-animate Sirv" data-src="{{.data.photo.Url}}?w=700px&scale.option=noup" data-options="lazy:false" alt="{{.data.photo.Name}}" title="{{.data.photo.Name}}"></p>
       {{if .data.preID}}
-      <p id="previous"><a href="/gallery/{{.data.preID}}"><span><</span></a></p>
+      <p id="previous"><a href="/gallery/{{.data.preID}}/" target="_self" title="See previous photo"><span><</span></a></p>
       {{end}}
       {{if .data.nextID}}
-      <p id="next"><a href="/gallery/{{.data.nextID}}"><span>></span></a></p>
+      <p id="next"><a href="/gallery/{{.data.nextID}}/" target="_self" title="See next photo"><span>></span></a></p>
       {{end}}
     </div>
     <div class="col-xl-6 col-lg-12" id="photo-info">
-      <h3 class="mb-5 photo-title">{{.data.photo.Name}}</h3>
+      <h1 class="mb-5 photo-title">{{.data.photo.Name}}</h1>
       <p id="photo-download" class="reference">Download <span class="icon-arrow-down"></span></p>
       {{.data.description}}
     </div>

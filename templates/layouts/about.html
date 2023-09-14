@@ -1,5 +1,5 @@
 
-{{define "title"}}whoknowkmh - {{.title}}{{end}}
+{{define "title"}}whoknowkmh - {{.data.title}}{{end}}
 
 {{define "content"}}
 <div class="container-fluid">
@@ -8,7 +8,16 @@
 
       <div class="row">
         <div class="col-xl-9 col-lg-12 mx-auto">
+          <h1 class="mb-3 mt-5">About Me</h1>
+          {{if eq .data.isshow "true"}}
           <iframe style="width: 100%;height: 800px;" src="https://docs.google.com/document/d/e/2PACX-1vSlxTgAqu2LOTLGGk9Pou6DnWSYe9QdGnpPyyFiH7uGrRghisoQO15uVLKHhAZGeg/pub?embedded=true"></iframe>
+          {{else}}
+          <div style="line-break:auto;">
+            <p>My name is Kiet. I was born, grew up, and currently live in Vietnam.<p>
+            <p>I’m a software engineer with over 4 years of experience developing web applications, services, ETL data and using some BI Tools.</p>
+            <p>I have experience using Golang and Python, SQL, HTML, JavaScript. I learn quickly, care about detail.</p>
+          </div>
+          {{end}}
         </div>
       </div>
       

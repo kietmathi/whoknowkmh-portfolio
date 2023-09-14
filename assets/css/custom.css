@@ -1,6 +1,15 @@
+main.probootstrap-main.js-probootstrap-main {
+    margin-top: 3rem!important;
+}
+
+.probootstrap-aside .probootstrap-close-menu,
+.probootstrap-main .probootstrap-bar .probootstrap-toggle {
+    cursor: pointer;
+}
+
 .probootstrap-main .card-columns .card a:before {
     display: flex;
-    font-size: 2em;
+    font-size: 1em;
     align-items: center;
     justify-content: center;
     content: "TAKE A LOOK";
@@ -8,8 +17,9 @@
 }
 
 #photo-info {
+    overflow: auto;
     line-break: auto;
-  }
+}
 #photo-info .photo-title {
 border-bottom: 2px solid #1FAD9F;
 }
@@ -61,3 +71,46 @@ transition: .3s all ease;
     -o-transition: .2s all ease;
     transition: .2s all ease;
 }
+.card.img-loaded a {
+    cursor: -moz-zoom-in;
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
+}
+
+@media screen and (min-width: 1140px) {
+.probootstrap-main .card-columns {
+    -webkit-columns: 6;
+    -moz-columns: 6;
+    columns: 6; } }
+@media screen and (max-width: 1140px) {
+.probootstrap-main .card-columns {
+    -webkit-columns: 4;
+    -moz-columns: 4;
+    columns: 4; } }
+@media screen and (max-width: 960px) {
+.probootstrap-main .card-columns {
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    columns: 3; } }
+ul.list-unstyled.d-flex.probootstrap-aside-social {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+@media screen and (max-width: 768px) {
+.probootstrap-main .card-columns {
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    columns: 3; } }
+ul.list-unstyled.d-flex.probootstrap-aside-social {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+@media screen and (max-width: 576px) {
+.probootstrap-main .card-columns {
+    -webkit-columns: 1;
+    -moz-columns: 1;
+    columns: 1; }
+ul.list-unstyled.d-flex.probootstrap-aside-social {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}}

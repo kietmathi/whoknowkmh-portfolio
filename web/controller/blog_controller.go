@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/kietmathi/whoknowkmh-portfolio/internal/renderutil"
@@ -19,10 +20,11 @@ func NewBlogController() BlogController {
 
 func (bc *blogController) Show(c *gin.Context) {
 	data := make(map[string]interface{}, 1)
-	data["title"] = "about"
+	data["title"] = "blog"
 	renderutil.RenderTemplte(
 		c,
 		http.StatusOK,
 		"blog.html",
+		1*time.Hour,
 		data)
 }
