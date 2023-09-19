@@ -1,0 +1,218 @@
+{{define "title"}}whoknowkmh - {{ .data.title }}{{end}}
+
+{{define "content"}}
+        <div class="container-fluid">
+            <div class="row justify-content mb-5 mt-5 border-bottom">
+                <a href="/logout">logout</a>
+            </div>
+            <div class="row justify-content mb-5 mt-5 border-bottom">
+                <div class="col-xl-1 col-lg-11">
+                    <h3>Table:</h3>
+                </div>
+                <div class="col-xl-11 col-lg-11">
+                    {{range .data.tableNames }}
+                    <button id="{{.}}">{{.}}</button>
+                    {{end}}
+                </div>
+            </div>
+
+            <div id="tableDetail" class="row justify-content mb-5 d-none">
+                <div class="col-xl-12 col-lg-12">
+                    <p><button id="addRow">Add new row</button></p>
+                </div>
+                <div class="col-xl-12 col-lg-12">
+                    <table id="example" class="display" style="width: 100%;"></table>
+                </div>
+            </div>
+
+        </div>
+{{end}}
+
+{{define "scripts"}}
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="/assets/js/sirv-2.19.1.nospin.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $("#photo").on("click", triggerPhotoClick());
+            });
+
+            function triggerPhotoClick() {
+                var clickEventAttached = false;
+                return function () {
+                    $("#tableDetail").removeClass("d-none");
+
+                    var tbl = createPhotoDataTable("#example");
+
+                    if (!clickEventAttached) {
+                        $("#addRow").on("click", addPhotoRow(tbl));
+                        clickEventAttached = true;
+                    }
+
+                    fetchAllPhoto(tbl);
+                };
+            }
+
+            function fetchAllPhoto(tbl) {
+                fetch("/admin/photo")
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        if(data.hasOwnProperty('message')) {
+                            alert(data.message);
+                            console.error("Error:", data.message);
+                            return
+                        }
+
+                        for (var i = 0; i < data.length; i++) {
+                            var photo = data[i];
+
+                            tbl.api()
+                                .row.add([
+                                    `<span id="photo_id_${photo.id}">${photo.id}</span>`,
+                                    `<input type="text" id="photo_name_${photo.id}" value="${photo.name}">`,
+                                    `<input type="text" class="image-input" id="photo_url_${photo.id}" value="${photo.url}">`,
+                                    `<textarea id="photo_description_${photo.id}" rows="2" cols="50">${photo.description}</textarea>`,
+                                    `<input type="text" id="photo_deleteflag_${photo.id}" value="${photo.deleteFlag}">`,
+                                    `<span id="photo_createdAt_${photo.id}">${photo.createdAt}</span>`,
+                                    `<span id="photo_updatedAt_${photo.id}">${photo.updatedAt}</span>`,
+                                    `<button onclick="updatePhoto($(this))" data-photo-id="${photo.id}">Update</button>`,
+                                ])
+                                .draw(false);
+                        }
+                    });
+            }
+
+            function createPhotoDataTable(id) {
+                if ($.fn.DataTable.isDataTable(id)) {
+                    $(id).DataTable().destroy();
+                }
+
+                $(id).empty();
+
+                return $(id).dataTable({
+                    columnDefs: [
+                        { name: "ID", title: "ID", targets: 0 },
+                        { name: "Name", title: "Name", targets: 1 },
+                        { name: "URL", title: "URL", targets: 2 },
+                        { name: "Description", title: "Description", targets: 3 },
+                        { name: "DeleteFlag", title: "DeleteFlag", targets: 4 },
+                        { name: "Created_At", title: "Created_At", targets: 5 },
+                        { name: "Updated_At", title: "Updated_At", targets: 6 },
+                        { name: "Insert/Update", title: "Insert/Update", targets: 7 },
+                    ],
+                    order: [[0, "desc"]],
+                });
+            }
+
+            function addPhotoRow(tbl) {
+                return function () {
+                    var count = stringToInt($(".sorting_1:first span").text()) + 1;
+                    tbl.api()
+                        .row.add([
+                            `<span id="photo_id_${count}">${count}</span>`,
+                            `<input type="text" id="photo_name_${count}">`,
+                            `<input type="text" class="image-input" id="photo_url_${count}">`,
+                            `<textarea id="photo_description_${count}" rows="2" cols="50"></textarea>`,
+                            `<span id="photo_deleteflag_${count}"></span>`,
+                            `<span id="photo_createdAt_${count}"></span>`,
+                            `<span id="photo_updatedAt_${count}"></span>`,
+                            `<button onclick="insertPhoto($(this))" data-photo-id="${count}">Insert</button>`,
+                        ])
+                        .draw(false);
+                    count++;
+                };
+            }
+
+            function updatePhoto(obj) {
+                var id = obj.data("photo-id");
+                var name = $(`#photo_name_${id}`).val();
+                var url = $(`#photo_url_${id}`).val();
+                var description = $(`#photo_description_${id}`).val();
+                var deleteFlag = $(`#photo_deleteflag_${id}`).val() === "true";
+
+                var formData = new FormData();
+                formData.append("id", id);
+                formData.append("name", name);
+                formData.append("url", url);
+                formData.append("description", description);
+                formData.append("deleteFlag", deleteFlag);
+
+                // URL của máy chủ và đường dẫn mục tiêu của yêu cầu POST
+                var url = "/admin/photo/" + id;
+
+                // Sử dụng fetch để gửi yêu cầu POST
+                fetch(url, {
+                    method: "PUT",
+                    body: formData, // Sử dụng đối tượng FormData đã tạo
+                    headers: {
+                        // Điều này cần phù hợp với yêu cầu của ứng dụng server
+                        Accept: "application/json",
+                        // Nếu bạn muốn gửi dữ liệu dưới dạng form
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                })
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    if(data.hasOwnProperty('message')) {
+                        alert(data.message);
+                        console.error("Error:", data.message);
+                        return
+                    }
+                    // Xử lý dữ liệu phản hồi từ máy chủ (nếu cần)
+                    console.log(`updated photo id ${data.id} successfully`);
+                    $(`#photo_updatedAt_${data.id}`).text(data.updatedAt);
+                    alert(`updated photo id ${data.id} successfully`);
+                });
+            }
+
+            function insertPhoto(obj) {
+                var id = obj.data("photo-id");
+                var name = $(`#photo_name_${id}`).val();
+                var url = $(`#photo_url_${id}`).val();
+                var description = $(`#photo_description_${id}`).val();
+
+                var formData = new FormData();
+                formData.append("id", id);
+                formData.append("name", name);
+                formData.append("url", url);
+                formData.append("description", description);
+
+                // URL của máy chủ và đường dẫn mục tiêu của yêu cầu POST
+                var url = "/admin/photo/" + id;
+
+                // Sử dụng fetch để gửi yêu cầu POST
+                fetch(url, {
+                    method: "POST",
+                    body: formData, // Sử dụng đối tượng FormData đã tạo
+                    headers: {
+                        // Điều này cần phù hợp với yêu cầu của ứng dụng server
+                        Accept: "application/json",
+                        // Nếu bạn muốn gửi dữ liệu dưới dạng form
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                })
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    if(data.hasOwnProperty('message')) {
+                        alert(data.message);
+                        console.error("Error:", data.message);
+                        return
+                    }
+                    // Xử lý dữ liệu phản hồi từ máy chủ (nếu cần)
+                    alert(`updated photo id ${data.id} successfully`);
+                    $("#photo").trigger("click");
+                });
+            }
+
+            function stringToInt(str) {
+                return parseInt(str) || 0;
+            }
+        </script>
+{{end}}

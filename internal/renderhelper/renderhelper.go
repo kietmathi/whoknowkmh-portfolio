@@ -1,17 +1,18 @@
-package renderutil
+package renderhelper
 
 import (
+	"context"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 // Use the HTML method of the Context to render a template
-func RenderTemplte(c *gin.Context, statusCode int, name string, cacheDuration time.Duration, data interface{}) {
+func RenderTemplate(c context.Context, statusCode int, name string, cacheDuration time.Duration, data interface{}) {
 	// Set a specific caching duration for rendered HTML content
-	c.Header("Cache-Control", "public, max-age="+cacheDuration.String())
+	c.(*gin.Context).Header("Cache-Control", "public, max-age="+cacheDuration.String())
 	// Set data for rendering HTML content
-	c.HTML(
+	c.(*gin.Context).HTML(
 		// Http status code
 		statusCode,
 		// Template name

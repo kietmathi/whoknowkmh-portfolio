@@ -2,13 +2,15 @@ package route
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/kietmathi/whoknowkmh-portfolio/usecase"
 	"github.com/kietmathi/whoknowkmh-portfolio/web/controller"
-	"gorm.io/gorm"
 )
 
 // NewHomeRouter: Set up routing so that each request is directed to the 'home' controller for processing
-func NewHomeRouter(db *gorm.DB, group *gin.RouterGroup) {
-	pc := controller.NewHomeController()
+func NewHomeRouter(group *gin.RouterGroup) {
+	hc := &controller.HomeController{
+		HomeUsecase: usecase.NewHomeUsecase(),
+	}
 
-	group.GET("/", pc.Show)
+	group.GET("/", hc.Show)
 }

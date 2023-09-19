@@ -5,28 +5,21 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kietmathi/whoknowkmh-portfolio/internal/renderutil"
+	"github.com/kietmathi/whoknowkmh-portfolio/domain"
 )
 
-type blogController struct{}
-
-type BlogController interface {
-	Show(c *gin.Context)
-}
-
-// NewBlogController: create a new instance for BlogController
-func NewBlogController() BlogController {
-	return &blogController{}
+type BlogController struct {
+	BlogUsecase domain.BlogUsecase
 }
 
 // Show: When the user clicks on the 'Blog' link, we should show the blog page with relevant information
-func (bc *blogController) Show(c *gin.Context) {
+func (bc *BlogController) Show(c *gin.Context) {
 	data := make(map[string]interface{}, 1)
 	data["title"] = "blog"
-	renderutil.RenderTemplte(
+	bc.BlogUsecase.RenderTemplate(
 		c,
 		http.StatusOK,
-		"blog.html",
+		"user/blog.html",
 		1*time.Hour,
 		data)
 }

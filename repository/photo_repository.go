@@ -21,11 +21,29 @@ func NewPhotoRepository(db *gorm.DB) domain.PhotoRepository {
 	}
 }
 
+func (p *photoRepository) TableName() string {
+	return "photo"
+}
+
 // FindByID: find the photo with specificed ID
 func (p *photoRepository) FindByID(id uint) (domain.Photo, error) {
 	var photo domain.Photo
 	err := p.DB.First(&photo, fmt.Sprintf("id=%v", id)).Error
 	return photo, err
+}
+
+// FindAll: Find all available photos and sort them in descending order
+func (p *photoRepository) FindAllAvailable() ([]domain.Photo, error) {
+	var photos []domain.Photo
+	err := p.DB.Where("delete_flag").Order("id DESC").Find(&photos).Error
+	return photos, err
+}
+
+// GetAllID: Get all available photo IDs
+func (p *photoRepository) GetAllAvailableID() ([]string, error) {
+	var ids []string
+	err := p.DB.Model(&domain.Photo{}).Where("delete_flag").Order("id DESC").Pluck("id", &ids).Error
+	return ids, err
 }
 
 // FindAll: Find all available photos and sort them in descending order
@@ -35,9 +53,13 @@ func (p *photoRepository) FindAll() ([]domain.Photo, error) {
 	return photos, err
 }
 
-// GetAllID: Get all available photo IDs
-func (p *photoRepository) GetAllID() ([]string, error) {
-	var ids []string
-	err := p.DB.Model(&domain.Photo{}).Order("id DESC").Pluck("id", &ids).Error
-	return ids, err
+func (p *photoRepository) UpdateByID(photo domain.Photo) (domain.Photo, error) {
+	err := p.DB.Model(&domain.Photo{}).Where("id = ?", photo.ID).Updates(photo).Error
+	return photo, err
+}
+
+func (p *photoRepository) InsertPhoto(photo domain.Photo) (domain.Photo, error) {
+	err := p.DB.Create(&photo).Error
+
+	return photo, err
 }

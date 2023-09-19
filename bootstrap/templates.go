@@ -15,19 +15,26 @@ func NewEmbedTemplates(fs embed.FS) multitemplate.Renderer {
 
 	// Generate our templates map from our layouts/ and includes/ directories
 
-	layouts, err := embed.FS.ReadDir(fs, "templates/layouts")
+	dirs, err := embed.FS.ReadDir(fs, "templates")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, layout := range layouts {
-		embeddedTemplate, err :=
-			template.ParseFS(fs, "templates/includes/base.html", "templates/layouts/"+layout.Name())
+	for _, dir := range dirs {
+		layouts, err := embed.FS.ReadDir(fs, "templates/"+dir.Name()+"/layouts")
 		if err != nil {
 			log.Fatal(err)
 		}
-		renderer.Add(layout.Name(), embeddedTemplate)
-		log.Println(layout.Name() + " loaded")
+
+		for _, layout := range layouts {
+			embeddedTemplate, err :=
+				template.ParseFS(fs, "templates/"+dir.Name()+"/includes/base.html", "templates/"+dir.Name()+"/layouts/"+layout.Name())
+			if err != nil {
+				log.Fatal(err)
+			}
+			renderer.Add(dir.Name()+"/"+layout.Name(), embeddedTemplate)
+			log.Println(dir.Name() + "/" + layout.Name() + " loaded")
+		}
 	}
 
 	return renderer

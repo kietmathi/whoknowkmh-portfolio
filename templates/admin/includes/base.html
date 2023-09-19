@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{block "title" .}}{{end}}</title>
+        <meta charset="utf-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="This website is dedicated to sharing everything about kmh's artistic interests, from artworks to blog posts sharing drawing experiences" />
+        <meta
+            name="keywords"
+            content="kietmathi portfolio,whoknowkmk's art,developer portfolio,programmer's projects,digital painting showcase,doodling gallery,creative coding,personal artwork blog,digital art portfolio,creative developer,visual art projects,programmer's doodles,digital artistry,coding and design,interactive coding,digital sketching, free bootstrap 4, free bootstrap 4 template, free website templates, free html5, free template, free website template, html5, css3, mobile first, responsive"
+        />
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+        {{block "media_head" .}}{{end}}
+
+    </head>
+
+    <body>
+
+        {{template "content" .}}
+
+        {{block "scripts" .}}{{end}}
+
+    </body>
+</html>
