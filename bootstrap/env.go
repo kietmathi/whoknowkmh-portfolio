@@ -12,6 +12,7 @@ type Env struct {
 	SessionSecret         string
 	AccessTokenSecret     string
 	AccessTokenExpiryHour string
+	CSRFAuthKey           string // 32 byte key
 	AdminUserID           string
 	AdminUserPwdHash      string // https://go.dev/play/p/uKMMCzJWGsW
 }
@@ -24,6 +25,7 @@ func NewEnv(fs embed.FS) *Env {
 		SessionSecret:         getEnvOrDefault("SECRET", "whoknowkmh-secret"),
 		AccessTokenSecret:     getEnvOrDefault("ACCESS_TOKEN_SECRET", "whoknowkmh-secret"),
 		AccessTokenExpiryHour: getEnvOrDefault("ACCESS_TOKEN_EXPIRY_HOUR ", "2"),
+		CSRFAuthKey:           getEnvOrDefault("CSRF_AUTH_KEY ", "0d3836af82a643f7b4212fb4c125ef5c8146310a4fec68fa36d2f86d89eeccf7032eb0ad1183d22bb382741030685a7dc909a09f09006e290dc45ca93ac4bc26"),
 		AdminUserID:           getEnvOrDefault("ADMIN_USER_ID ", "admin"),
 		AdminUserPwdHash:      getEnvOrDefault("ADMIN_USER_PWD ", "$2a$12$RPAJZXqgm2bP/VIWsJUUcuNSG57/EzbMvD0ebch3e1q518oGaSSgu"), // pwd default 123456
 	}

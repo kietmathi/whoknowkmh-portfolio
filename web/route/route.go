@@ -18,13 +18,13 @@ func Setup(db *gorm.DB, env *bootstrap.Env, logger *log.Logger, gin *gin.Engine)
 		NewAboutRouter(publicRouter)
 		NewGalleryRouter(db, logger, publicRouter)
 		NewBlogRouter(publicRouter)
-		NewLoginRouter(env, publicRouter)
-		NewLogoutRouter(publicRouter)
+		NewLoginRouter(env, logger, publicRouter)
+		NewLogoutRouter(publicRouter, logger)
 	}
 
 	protectedRouter := gin.Group("")
 	{
 		protectedRouter.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
-		NewAdminRouter(db, protectedRouter)
+		NewAdminRouter(db, logger, protectedRouter)
 	}
 }

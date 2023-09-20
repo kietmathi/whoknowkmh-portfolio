@@ -10,17 +10,18 @@ import (
 
 type AdminController struct {
 	AdminUsecase domain.AdminUsecase
+	Logger       domain.Logger
 }
 
 func (ac *AdminController) Show(c *gin.Context) {
 	tableNames := ac.AdminUsecase.FindAvailableDBTable()
 	data := make(map[string]interface{}, 2)
-	data["title"] = "whoknowkmh - admin"
+	data["title"] = domain.AdminTitle
 	data["tableNames"] = tableNames
 	ac.AdminUsecase.RenderTemplate(
 		c,
 		http.StatusOK,
-		"admin/admin.html",
+		domain.AdminTemplateName,
 		0*time.Second,
 		data,
 	)
@@ -37,7 +38,8 @@ func (ac *AdminController) ShowTableDetail(c *gin.Context) {
 	}
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		ac.Logger.Printf("%+v\n", err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
 
@@ -47,6 +49,7 @@ func (ac *AdminController) ShowTableDetail(c *gin.Context) {
 func (ac *AdminController) UpdatePhoto(c *gin.Context) {
 	photo := domain.Photo{}
 	if err := c.ShouldBind(&photo); err != nil {
+		ac.Logger.Printf("%+v\n", err)
 		// Xử lý lỗi nếu có
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
@@ -54,8 +57,9 @@ func (ac *AdminController) UpdatePhoto(c *gin.Context) {
 
 	updatedPhoto, err := ac.AdminUsecase.UpdatePhotoByID(photo)
 	if err != nil {
+		ac.Logger.Printf("%+v\n", err)
 		// Xử lý lỗi nếu có
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		c.AbortWithStatusJSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
 
@@ -65,6 +69,7 @@ func (ac *AdminController) UpdatePhoto(c *gin.Context) {
 func (ac *AdminController) InsertPhoto(c *gin.Context) {
 	photo := domain.Photo{}
 	if err := c.ShouldBind(&photo); err != nil {
+		ac.Logger.Printf("%+v\n", err)
 		// Xử lý lỗi nếu có
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
@@ -72,8 +77,9 @@ func (ac *AdminController) InsertPhoto(c *gin.Context) {
 
 	insertPhoto, err := ac.AdminUsecase.InsertPhoto(photo)
 	if err != nil {
+		ac.Logger.Printf("%+v\n", err)
 		// Xử lý lỗi nếu có
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		c.AbortWithStatusJSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
 

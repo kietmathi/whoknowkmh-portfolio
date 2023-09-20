@@ -1,6 +1,8 @@
 package route
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/kietmathi/whoknowkmh-portfolio/repository"
 	usecase "github.com/kietmathi/whoknowkmh-portfolio/usecase"
@@ -8,10 +10,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewAdminRouter(db *gorm.DB, gin *gin.RouterGroup) {
+func NewAdminRouter(db *gorm.DB, logger *log.Logger, gin *gin.RouterGroup) {
 	pr := repository.NewPhotoRepository(db)
 	ac := &controller.AdminController{
 		AdminUsecase: usecase.NewAdminUsecase(pr),
+		Logger:       logger,
 	}
 
 	gin.GET("/admin", ac.Show)

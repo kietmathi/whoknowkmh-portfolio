@@ -5,7 +5,13 @@ import (
 	"time"
 )
 
-// PhotoService : represent the gallery's services
+const (
+	GalleryTitle              = "blog"
+	GalleryAllTemplateName    = "user/gallery_all.html"
+	GallerySingleTemplateName = "user/gallery_single.html"
+)
+
+// GalleryUsecase : represent the gallery's usecase
 type GalleryUsecase interface {
 	FindPhotoByID(uint) (Photo, error)
 	FindAllAvailablePhoto() ([]Photo, error)

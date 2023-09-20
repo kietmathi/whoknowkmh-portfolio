@@ -15,11 +15,11 @@ type BlogController struct {
 // Show: When the user clicks on the 'Blog' link, we should show the blog page with relevant information
 func (bc *BlogController) Show(c *gin.Context) {
 	data := make(map[string]interface{}, 1)
-	data["title"] = "blog"
+	data["title"] = domain.BlogTitle
 	bc.BlogUsecase.RenderTemplate(
 		c,
 		http.StatusOK,
-		"user/blog.html",
+		domain.BlogTemplateName,
 		1*time.Hour,
 		data)
 }

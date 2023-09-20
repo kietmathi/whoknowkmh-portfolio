@@ -10,8 +10,6 @@ import (
 	"github.com/kietmathi/whoknowkmh-portfolio/domain"
 )
 
-const templateTitle string = "gallery"
-
 type GalleryController struct {
 	GalleryUsecase domain.GalleryUsecase
 	Logger         domain.Logger
@@ -20,7 +18,6 @@ type GalleryController struct {
 // ShowAll : When the user clicks on the 'Gallery' link,
 // we should show the gallery page with all available photos
 func (gc *GalleryController) ShowAll(c *gin.Context) {
-	templateName := "user/gallery.all.html"
 	data := make(map[string]interface{}, 2)
 
 	// Find all available photos in DB
@@ -30,19 +27,19 @@ func (gc *GalleryController) ShowAll(c *gin.Context) {
 		gc.GalleryUsecase.RenderTemplate(
 			c,
 			http.StatusBadRequest,
-			templateName,
+			domain.GalleryAllTemplateName,
 			0*time.Second,
 			data)
 		return
 	}
 
 	// Rendering a gallery that shows all photos
-	data["title"] = templateTitle
+	data["title"] = domain.GalleryTitle
 	data["photos"] = photos
 	gc.GalleryUsecase.RenderTemplate(
 		c,
 		http.StatusOK,
-		templateName,
+		domain.GalleryAllTemplateName,
 		1*time.Hour,
 		data)
 }
@@ -50,7 +47,6 @@ func (gc *GalleryController) ShowAll(c *gin.Context) {
 // ShowByID : When the user clicks on the link to a specific photo,
 // we should show a page with relevant information about that photo
 func (gc *GalleryController) ShowByID(c *gin.Context) {
-	templateName := "user/gallery.single.html"
 	data := make(map[string]interface{}, 5)
 
 	// Extract the photo ID from the request parameter
@@ -60,8 +56,8 @@ func (gc *GalleryController) ShowByID(c *gin.Context) {
 		gc.Logger.Printf("%+v\n", err)
 		gc.GalleryUsecase.RenderTemplate(
 			c,
-			http.StatusBadRequest,
-			templateName,
+			http.StatusNotFound,
+			"user/not.found.html",
 			0*time.Second,
 			data)
 		return
@@ -74,7 +70,7 @@ func (gc *GalleryController) ShowByID(c *gin.Context) {
 		gc.GalleryUsecase.RenderTemplate(
 			c,
 			http.StatusBadRequest,
-			templateName,
+			domain.GallerySingleTemplateName,
 			0*time.Second,
 			data)
 		return
@@ -88,7 +84,7 @@ func (gc *GalleryController) ShowByID(c *gin.Context) {
 		gc.GalleryUsecase.RenderTemplate(
 			c,
 			http.StatusBadRequest,
-			templateName,
+			domain.GallerySingleTemplateName,
 			0*time.Second,
 			data)
 		return
@@ -96,7 +92,7 @@ func (gc *GalleryController) ShowByID(c *gin.Context) {
 
 	// rendering a page that shows information for a specific photo ID
 	// and includes URLs for navigating to the adjacent photos.
-	data["title"] = templateTitle
+	data["title"] = domain.GalleryTitle
 	data["photo"] = photo
 	data["description"] = template.HTML(photo.Description)
 	data["preID"] = preID
@@ -104,7 +100,7 @@ func (gc *GalleryController) ShowByID(c *gin.Context) {
 	gc.GalleryUsecase.RenderTemplate(
 		c,
 		http.StatusOK,
-		templateName,
+		domain.GallerySingleTemplateName,
 		1*time.Hour,
 		data)
 }

@@ -11,6 +11,7 @@
                         {{ if .data.errLogin }}
                             {{ .data.errLogin }}
                         {{end}}
+                        {{ .csrfField }}
                         <div class="form-group mt-3">
                             <label for="userid">ID:</label>
                             <input class="form-control" id="userid"

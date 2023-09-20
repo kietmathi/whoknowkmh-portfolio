@@ -4,6 +4,7 @@
         <div class="container-fluid">
             <div class="row justify-content mb-5 mt-5 border-bottom">
                 <a href="/logout">logout</a>
+                {{ .csrfField }}
             </div>
             <div class="row justify-content mb-5 mt-5 border-bottom">
                 <div class="col-xl-1 col-lg-11">
@@ -31,7 +32,6 @@
 {{define "scripts"}}
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <script src="/assets/js/sirv-2.19.1.nospin.js"></script>
 
         <script>
             $(document).ready(function () {
@@ -127,6 +127,7 @@
             }
 
             function updatePhoto(obj) {
+                
                 var id = obj.data("photo-id");
                 var name = $(`#photo_name_${id}`).val();
                 var url = $(`#photo_url_${id}`).val();
@@ -134,6 +135,7 @@
                 var deleteFlag = $(`#photo_deleteflag_${id}`).val() === "true";
 
                 var formData = new FormData();
+                formData.append("gorilla.csrf.Token", csrfToken());
                 formData.append("id", id);
                 formData.append("name", name);
                 formData.append("url", url);
@@ -177,6 +179,7 @@
                 var description = $(`#photo_description_${id}`).val();
 
                 var formData = new FormData();
+                formData.append("gorilla.csrf.Token", csrfToken());
                 formData.append("id", id);
                 formData.append("name", name);
                 formData.append("url", url);
@@ -209,6 +212,10 @@
                     alert(`updated photo id ${data.id} successfully`);
                     $("#photo").trigger("click");
                 });
+            }
+
+            function csrfToken() {
+                return $('input[name="gorilla.csrf.Token"]').val();
             }
 
             function stringToInt(str) {

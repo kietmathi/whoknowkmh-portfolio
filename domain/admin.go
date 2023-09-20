@@ -5,7 +5,12 @@ import (
 	"time"
 )
 
-// AdminService : represent the admin's services
+const (
+	AdminTitle = "admin"
+	AdminTemplateName = "admin/admin.html"
+)
+
+// AdminUsecase : represent the admin's usecase
 type AdminUsecase interface {
 	FindAvailableDBTable() []string
 	ShowAllPhoto() ([]Photo, error)

@@ -16,12 +16,12 @@ type AboutController struct {
 func (abc *AboutController) Show(c *gin.Context) {
 	isshow := c.DefaultQuery("isshow", "false")
 	data := make(map[string]interface{}, 1)
-	data["title"] = "about"
+	data["title"] = domain.AboutTitle
 	data["isshow"] = isshow
 	abc.AboutUsecase.RenderTemplate(
 		c,
 		http.StatusOK,
-		"user/about.html",
+		domain.AboutTemplateName,
 		1*time.Hour,
 		data)
 }

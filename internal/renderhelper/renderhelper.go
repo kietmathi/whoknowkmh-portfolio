@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/csrf"
 )
 
 // Use the HTML method of the Context to render a template
@@ -19,6 +20,7 @@ func RenderTemplate(c context.Context, statusCode int, name string, cacheDuratio
 		name,
 		// Data that the template uses for rendering
 		gin.H{
-			"data": data,
+			"data":           data,
+			csrf.TemplateTag: csrf.TemplateField(c.(*gin.Context).Request),
 		})
 }

@@ -33,7 +33,7 @@ func (lgs *loginUsecase) GetSession(c context.Context, key string) (interface{},
 	return ginsessionutil.Get(c, key)
 }
 
-func (lgs *loginUsecase) DeleteSession(c context.Context, key string) error {
+func (lgs *loginUsecase) DeleteFromSession(c context.Context, key string) error {
 	return ginsessionutil.Delete(c, key)
 }
 
