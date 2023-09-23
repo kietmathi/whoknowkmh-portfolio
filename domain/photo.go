@@ -8,7 +8,7 @@ type Photo struct {
 	Name        string    `gorm:"size:255;not null" json:"name" form:"name" binding:"required"`
 	Url         string    `gorm:"size:255;not null" json:"url" form:"url" binding:"required"`
 	Description string    `gorm:"size:1000" json:"description" form:"description"`
-	DeleteFlag  *bool     `gorm:"default:true" json:"deleteFlag" form:"deleteFlag"`
+	DeleteFlag  *bool     `gorm:"default:false" json:"deleteFlag" form:"deleteFlag"`
 	CreatedAt   time.Time `gorm:"default:current_timestamp" json:"createdAt"`
 	UpdatedAt   time.Time `gorm:"default:current_timestamp" json:"updatedAt"`
 }

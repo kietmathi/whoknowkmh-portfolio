@@ -57,7 +57,7 @@ func (lgc *LoginController) LoginPost(c *gin.Context) {
 		return
 	}
 
-	accessToken, err := lgc.LoginUsecase.CreateAccessToken(&requestUser, lgc.Env.AccessTokenSecret, 2)
+	accessToken, err := lgc.LoginUsecase.CreateAccessToken(&requestUser, lgc.Env.AccessTokenSecret, lgc.Env.AccessTokenExpiryHour)
 	if err != nil {
 		lgc.Logger.Printf("%+v\n", err)
 		lgc.LoginUsecase.SetSession(c, "error", err.Error())
@@ -68,7 +68,7 @@ func (lgc *LoginController) LoginPost(c *gin.Context) {
 
 	lgc.LoginUsecase.DeleteFromSession(c, "error")
 
-	lgc.LoginUsecase.SetCookieSession(c, "Authorization", accessToken, 2*3600)
+	lgc.LoginUsecase.SetCookieSession(c, "Authorization", accessToken, lgc.Env.AccessTokenExpiryHour*3600)
 
 	c.Redirect(http.StatusSeeOther, "/admin")
 }

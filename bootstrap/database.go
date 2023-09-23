@@ -4,31 +4,32 @@ import (
 	"log"
 
 	"github.com/kietmathi/whoknowkmh-portfolio/domain"
-	"gorm.io/driver/sqlite" // Sqlite driver based on CGO
-	"gorm.io/gorm"
+	"github.com/kietmathi/whoknowkmh-portfolio/sqlite"
 )
 
 // NewSQLiteDatabase : Create a new SQLite instance
-func NewSQLiteDatabase(DNS string) *gorm.DB {
-	var db *gorm.DB
-	db, err := gorm.Open(sqlite.Open(DNS), &gorm.Config{})
+func NewSQLiteDatabase(DNS string) sqlite.Client {
+	client, err := sqlite.NewClient(DNS)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = db.AutoMigrate(&domain.Photo{})
+	err = client.Database().AutoMigrate(&domain.Photo{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return db
+	return client
 }
 
 // CloseSQLiteDatabaseConnection: Close SQLite database connection
-func CloseSQLiteDatabaseConnection(db *gorm.DB) {
-	dbSQL, err := db.DB()
+func CloseSQLiteDatabaseConnection(client sqlite.Client) {
+	if client == nil {
+		return
+	}
+	err := client.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
-	dbSQL.Close()
+	log.Println("Connection to MongoDB closed.")
 }

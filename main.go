@@ -27,7 +27,7 @@ func main() {
 	// environment variable
 	env := app.Env
 	// Instance for SQLite database
-	db := app.SQLiteDB
+	db := app.SQLiteDB.Database()
 	defer app.CloseDBConnection()
 
 	// Initialize Gin instance
@@ -40,7 +40,7 @@ func main() {
 		gin.Use(middleware.CSRFToken())
 		gin.Use(gzip.Gzip(gzip.DefaultCompression))
 		gin.Use(cors.Default())
-		gin.Use(middleware.CacheStaticFiles(2 * time.Hour))
+		gin.Use(middleware.CacheStaticFiles(time.Duration(env.CacheStaticFilesExpiryHour) * time.Hour))
 		// Set templates
 		gin.HTMLRender = app.EmbedTemplates
 		// Serve static files

@@ -5,12 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/kietmathi/whoknowkmh-portfolio/repository"
+	"github.com/kietmathi/whoknowkmh-portfolio/sqlite"
 	usecase "github.com/kietmathi/whoknowkmh-portfolio/usecase"
 	"github.com/kietmathi/whoknowkmh-portfolio/web/controller"
-	"gorm.io/gorm"
 )
 
-func NewAdminRouter(db *gorm.DB, logger *log.Logger, gin *gin.RouterGroup) {
+func NewAdminRouter(db sqlite.Database, logger *log.Logger, gin *gin.RouterGroup) {
 	pr := repository.NewPhotoRepository(db)
 	ac := &controller.AdminController{
 		AdminUsecase: usecase.NewAdminUsecase(pr),

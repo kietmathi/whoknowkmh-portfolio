@@ -6,12 +6,12 @@ import (
 	"log"
 
 	"github.com/gin-contrib/multitemplate"
-	"gorm.io/gorm"
+	"github.com/kietmathi/whoknowkmh-portfolio/sqlite"
 )
 
 type Application struct {
-	Env            *Env     // Environment variable
-	SQLiteDB       *gorm.DB // Instance for SQLite database
+	Env            *Env          // Environment variable
+	SQLiteDB       sqlite.Client // Instance for SQLite database
 	EmbedTemplates multitemplate.Renderer
 	EmbedAssets    fs.FS
 	Logger         *log.Logger
