@@ -18,7 +18,7 @@ func NewAdminRouter(db sqlite.Database, logger *log.Logger, gin *gin.RouterGroup
 	}
 
 	gin.GET("/admin", ac.Show)
-	gin.GET("/admin/:tablename", ac.ShowTableDetail)
+	gin.GET("/admin/photo", ac.ShowTablePhoto)
 	gin.PUT("/admin/photo/:id", ac.UpdatePhoto)
 	gin.POST("/admin/photo/:id", ac.InsertPhoto)
 }

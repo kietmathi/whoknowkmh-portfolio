@@ -57,7 +57,7 @@ func (gc *GalleryController) ShowByID(c *gin.Context) {
 		gc.GalleryUsecase.RenderTemplate(
 			c,
 			http.StatusNotFound,
-			"user/not.found.html",
+			"user/not_found.html",
 			0*time.Second,
 			data)
 		return

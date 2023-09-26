@@ -13,6 +13,11 @@ type AdminController struct {
 	Logger       domain.Logger
 }
 
+func (ac *AdminController) HandleError(c *gin.Context, err error) {
+	ac.Logger.Printf("%+v\n", err)
+	c.AbortWithStatusJSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+}
+
 func (ac *AdminController) Show(c *gin.Context) {
 	tableNames := ac.AdminUsecase.FindAvailableDBTable()
 	data := make(map[string]interface{}, 2)
@@ -27,19 +32,12 @@ func (ac *AdminController) Show(c *gin.Context) {
 	)
 }
 
-func (ac *AdminController) ShowTableDetail(c *gin.Context) {
-	tableName := c.Param("tablename")
+func (ac *AdminController) ShowTablePhoto(c *gin.Context) {
 
-	var data interface{}
-	var err error
-	switch tableName {
-	case "photo":
-		data, err = ac.AdminUsecase.ShowAllPhoto()
-	}
+	data, err := ac.AdminUsecase.ShowAllPhoto()
 
 	if err != nil {
-		ac.Logger.Printf("%+v\n", err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		ac.HandleError(c, err)
 		return
 	}
 
@@ -49,17 +47,14 @@ func (ac *AdminController) ShowTableDetail(c *gin.Context) {
 func (ac *AdminController) UpdatePhoto(c *gin.Context) {
 	photo := domain.Photo{}
 	if err := c.ShouldBind(&photo); err != nil {
-		ac.Logger.Printf("%+v\n", err)
-		// Xử lý lỗi nếu có
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		ac.HandleError(c, err)
 		return
 	}
 
 	updatedPhoto, err := ac.AdminUsecase.UpdatePhotoByID(photo)
 	if err != nil {
 		ac.Logger.Printf("%+v\n", err)
-		// Xử lý lỗi nếu có
-		c.AbortWithStatusJSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		ac.HandleError(c, err)
 		return
 	}
 
@@ -71,7 +66,7 @@ func (ac *AdminController) InsertPhoto(c *gin.Context) {
 	if err := c.ShouldBind(&photo); err != nil {
 		ac.Logger.Printf("%+v\n", err)
 		// Xử lý lỗi nếu có
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		ac.HandleError(c, err)
 		return
 	}
 
@@ -79,7 +74,7 @@ func (ac *AdminController) InsertPhoto(c *gin.Context) {
 	if err != nil {
 		ac.Logger.Printf("%+v\n", err)
 		// Xử lý lỗi nếu có
-		c.AbortWithStatusJSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		ac.HandleError(c, err)
 		return
 	}
 
